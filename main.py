@@ -1,12 +1,13 @@
 import pygame
+import sys
 
 # typically should avoid wildcard imports and only import what you actually need
 # but, alas, small project is small
 from constants import *
-from circleshape import *
-from player import *
-from asteroid import *
-from asteroidfield import *
+from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
+from shot import Shot
 
 def main():
     print("Starting asteroids!")
@@ -22,10 +23,12 @@ def main():
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
+    shots = pygame.sprite.Group()
     
     Player.containers = (updatable, drawable)
     Asteroid.containers  = (updatable, drawable, asteroids)
     AsteroidField.containers = (updatable)
+    Shot.containers = (drawable, shots, updatable)
 
     player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2) # initialize player in center of screen
     field = AsteroidField()
@@ -45,7 +48,7 @@ def main():
         for ast_obj in asteroids:
             if ast_obj.collision(player) == True:
                 print("Game over!")
-                return
+                sys.exit()
 
         for draw_obj in drawable:
             draw_obj.draw(screen)
