@@ -50,6 +50,11 @@ def main():
                 print("Game over!")
                 sys.exit()
 
+            for shot_obj in shots:
+                if ast_obj.collision(shot_obj) == True:
+                    ast_obj.kill()
+                    shot_obj.kill()
+
         for draw_obj in drawable:
             draw_obj.draw(screen)
 
